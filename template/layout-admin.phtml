@@ -1,0 +1,125 @@
+<?php
+// Set doctype explicitly if it is not `HTML4_LOOSE`, i.e. 'HTML 4.01 Transitional'
+$this->doctype('HTML5');
+
+// Load translation data
+$this->i18nTheme();
+
+// Set prefix for head title
+$this->headTitle()->setPrefix(_a('Admin - '));
+
+//HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries
+$this->js(array(
+    pi::url('static/js/html5shiv.js') => array(
+        'conditional' => 'lt IE 9'
+    ),
+    pi::url('static/js/respond.min.js') => array(
+        'conditional' => 'lt IE 9'
+    ),
+));
+
+// Load jQuery
+$this->jquery();
+
+// Load Bootstrap css/js and font-awesome
+$this->bootstrap(array(
+    'js/bootstrap.min.js',
+    'font-awesome/css/font-awesome.min.css'
+));
+
+// Load admin.css
+$this->css($this->assetTheme('css/admin.css'));
+
+// Load localization css
+$this->css($this->assetLocale('locale.css'));
+
+// Load admin.js on footer
+$this->footScript()->appendFile($this->assetTheme('js/admin.js'));
+
+// Meta Viewport Tag
+$this->headMeta('width=device-width, initial-scale=1.0', 'viewport');
+
+// Explicitly load favicon
+$this->headLink(array(
+    'rel'   => 'shortcut icon',
+    'type'  => 'image/x-icon',
+    'href'  => $this->favicon(),
+));
+$this->headLink(array(
+    'rel'   => 'shortcut icon',
+    'type'  => 'image/png',
+    'href'  => $this->favicon('favicon.png'),
+));
+
+// Get module name
+$module = Pi::service('module')->current();
+
+?>
+<!DOCTYPE HTML>
+<html lang="<?php echo $locale ?>">
+<head>
+    <meta charset="<?php echo $charset; ?>">
+    <!--[if IE]><meta http-equiv="X-UA-Compatible" content="IE=edge"><![endif]-->
+</head>
+<body id="pi-<?php echo $module; ?>" class="pi-locale-<?php echo $locale; ?> pi-admin">
+<!-- header: brand, navbar-nav, user link -->
+<header class="pi-header">
+    <div class="navbar navbar-fixed-top" role="navigation">
+    <div class="navbar-header">
+        <button class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+            <i class="fa fa-bars"></i>
+        </button>
+        <a class="navbar-brand" href="<?php echo $this->url('home'); ?>">
+            <strong>FaraGostaresh</strong>
+        </a>
+    </div>
+    <nav class="navbar-collapse collapse">
+        <?php echo $this->adminNav()->modes('nav navbar-nav'); ?>
+        <ul class="nav navbar-nav navbar-right navbar-go-front">
+            <li>
+                <a href="<?php echo Pi::url('www'); ?>" title="<?php echo _escape($sitename); ?>" target="_blank">
+                    <i class="fa fa-external-link"></i>
+                    <?php _e('Front'); ?>
+                </a>
+            </li>
+        </ul>
+        <?php echo $this->widget('system-user-bar', array(
+            'type'      => 'flat',
+            'params'    => array(
+                'section'   => Pi::engine()->application()->getSection(),
+            ),
+        )); ?>
+    </nav>
+    </div>
+</header>
+<section class="pi-section clearfix">
+    <aside class="pi-sidebar">
+        <div id="js-modules-nav">
+            <?php echo $this->adminNav()->main('nav pi-modules-nav'); ?>
+        </div>
+    </aside>
+    <div class="pi-content" ng-app="<?php echo $module; ?>">
+        <div pi-message="alert"></div>
+        <nav class="pi-nav-top" id="pi-nav-top" ng-controller="piNavTopCtrl">
+            <?php
+            echo $this->adminNav()->top(array(
+                'ulClass'  => 'nav nav-tabs',
+                'sub'      => array(
+                    'ulClass' => 'nav nav-pills well well-sm'
+                )
+            ));
+            ?>
+        </nav>
+        <!-- Flash messenger -->
+        <?php include $this->template('flash-messenger'); ?>
+        <article class="pi-module-content">
+            <div ng-view></div>
+            <div class="<?php echo $module; ?>"><?php echo $content; ?></div>
+        </article>
+    </div>
+</section>
+<footer class="pi-footer">
+    <p class="text-right" data-rel="license">طراحی و توسعه <a title="فراگسترش" href="http://www.faragostaresh.com" target="_blank">فراگسترش</a></p>
+</footer>
+</body>
+</html>

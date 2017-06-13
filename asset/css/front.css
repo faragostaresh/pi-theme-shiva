@@ -577,3 +577,21 @@ form .icon-question-sign {
     padding-right: 10px;
     content: " - ";
 }
+
+.news .index-media .thumbnail a {
+    height: 240px;
+}
+
+.news .index-media .thumbnail a img {
+    max-height: 240px;
+}
+
+.news .index-media .thumbnail .storyText {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+    line-height: 20px;
+    height: 60px;
+}

@@ -572,10 +572,13 @@ form .icon-question-sign {
     margin-bottom: 5px;
 }
 
-
 .news-topic-block .depth-1 a:before {
     padding-right: 10px;
     content: " - ";
+}
+
+.news .index-media .thumbnail{
+    height: 360px;
 }
 
 .news .index-media .thumbnail a {
